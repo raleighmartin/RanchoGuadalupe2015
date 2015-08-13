@@ -19,10 +19,10 @@ raw = raw(2:end,:);
 raw(cellfun(@(x) ~isempty(x) && isnumeric(x) && isnan(x),raw)) = {''};
 
 %% Allocate imported array to column variable names
-Filename = {raw(:,1)};
-Site = {raw(:,2)};
+Filename = raw(:,1);
+Site = raw(:,2);
 Date = round(cell2mat(raw(:,3))); %round this to get precise time
-Location = {raw(:,4)};
+Location = raw(:,4);
 CollectionTime = cell2mat(raw(:,5));
 
 %% Convert dates to MATLAB datetime format
@@ -32,19 +32,23 @@ Date = datetime(Date,'ConvertFrom','excel');
 %% Correct for roundoff error (assuming time resolution of minutes)
 CollectionTime = RoundTimeMin(CollectionTime);
 
-%% Create structured array with spreadsheet information
-% GrainSizeMetadata_Surface.Filename = Filename;
-% GrainSizeMetadata_Surface.Site = Site;
-% GrainSizeMetadata_Surface.Date = Date;
-% GrainSizeMetadata_Surface.Location = Location;
-% GrainSizeMetadata_Surface.CollectionTime = CollectionTime;
+%% Assign values to structured array
+N_Samples = length(Filename);
+
+% for i = 1:N_Samples
+%     GrainSizeMetadata_Surface(i).Filename = Filename{i};
+%     GrainSizeMetadata_Surface(i).Site = Site{i};
+%     GrainSizeMetadata_Surface(i).Date = Date(i);
+%     GrainSizeMetadata_Surface(i).Location = Location{i};
+%     GrainSizeMetadata_Surface(i).CollectionTime = CollectionTime(i);
+% end
 
 GrainSizeMetadata_Surface = struct(...
-    'Filename',Filename,...
-    'Site',Site,...
-    'Date',Date,...
-    'Location',Location,...
-    'CollectionTime',CollectionTime);
+    'Filename',cellstr(Filename),...
+    'Site',cellstr(Site),...
+    'Date',num2cell(Date),...
+    'Location',cellstr(Location),...
+    'CollectionTime',num2cell(CollectionTime));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Import BSNE grain size metadata %
@@ -54,13 +58,13 @@ raw = raw(2:end,:);
 raw(cellfun(@(x) ~isempty(x) && isnumeric(x) && isnan(x),raw)) = {''};
 
 %% Allocate imported array to column variable names
-Filename = {raw(:,1)};
-Site = {raw(:,2)};
+Filename = raw(:,1);
+Site = raw(:,2);
 Date = round(cell2mat(raw(:,3))); %round this to get precise time
-NameBSNE = {raw(:,4)};
+NameBSNE = raw(:,4);
 StartTime = cell2mat(raw(:,5));
 EndTime = cell2mat(raw(:,6));
-Notes = {raw(:,7)};
+Notes = raw(:,7);
 
 %% Convert dates to MATLAB datetime format
 StartTime = datetime(Date+StartTime,'ConvertFrom','excel');
@@ -71,20 +75,24 @@ Date = datetime(Date,'ConvertFrom','excel');
 StartTime = RoundTimeMin(StartTime);
 EndTime = RoundTimeMin(EndTime);
 
-%% Create structured array with spreadsheet information
-% GrainSizeMetadata_BSNE.Filename = Filename;
-% GrainSizeMetadata_BSNE.Site = Site;
-% GrainSizeMetadata_BSNE.Date = Date;
-% GrainSizeMetadata_BSNE.NameBSNE = NameBSNE;
-% GrainSizeMetadata_BSNE.StartTime = StartTime;
-% GrainSizeMetadata_BSNE.EndTime = EndTime;
-% GrainSizeMetadata_BSNE.Notes = Notes;
+% %% Assign values to structured array
+% N_Samples = length(Filename);
+% 
+% for i = 1:N_Samples
+%     GrainSizeMetadata_BSNE(i).Filename = Filename;
+%     GrainSizeMetadata_BSNE(i).Site = Site;
+%     GrainSizeMetadata_BSNE(i).Date = Date;
+%     GrainSizeMetadata_BSNE(i).NameBSNE = NameBSNE;
+%     GrainSizeMetadata_BSNE(i).StartTime = StartTime;
+%     GrainSizeMetadata_BSNE(i).EndTime = EndTime;
+%     GrainSizeMetadata_BSNE(i).Notes = Notes;
+% end
 
 GrainSizeMetadata_BSNE = struct(...
-    'Filename',Filename,...
-    'Site',Site,...
-    'Date',Date,...
-    'NameBSNE',NameBSNE,...
-    'StartTime',StartTime,...
-    'EndTime',EndTime,...
-    'Notes',Notes);
+    'Filename',cellstr(Filename),...
+    'Site',cellstr(Site),...
+    'Date',num2cell(Date),...
+    'NameBSNE',cellstr(NameBSNE),...
+    'StartTime',num2cell(StartTime),...
+    'EndTime',num2cell(EndTime),...
+    'Notes',cellstr(Notes));
