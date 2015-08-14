@@ -24,8 +24,19 @@ file_GrainSizeMetadata = 'GrainSizeMetadata.xlsx'; %file with grain size metadat
 Metadata_Path = strcat(folder_DataOutput,'Metadata_RanchoGuadalupe'); %get path to saving meta data
 RawData_Path = strcat(folder_DataOutput,'RawData_RanchoGuadalupe'); %get path to saving raw data
 InterpolatedData_Path = strcat(folder_DataOutput,'InterpolatedData_RanchoGuadalupe'); %get path to saving interpolated data
-ProcessedData_Path = strcat(folder_DataOutput,'ProcessedData_RanchoGualalupe'); %get path to saving processed data
+ProcessedData_Path = strcat(folder_DataOutput,'ProcessedData_RanchoGuadalupe'); %get path to saving processed data
 GrainSize_Path = strcat(folder_DataOutput,'GrainSize_RanchoGuadalupe'); % get path to saving grain size data
+
+%% 2. Parse spreadsheets for info about loggers and site
+LoggerTables = ParseLoggerTables(folder_Metadata,file_LoggerTables); %extract info about logger tables from .xlsx file
+LoggerTimes = ParseLoggerTimes(folder_Metadata,file_LoggerTimes); %extract info about logger start/end times from .xlsx file
+InstrumentVariables = ParseInstrumentVariables(folder_Metadata,file_InstrumentVariables); %extract info about types of instruments and associated variables from .xlsx file
+InstrumentMetadata = ParseInstrumentMetadata(folder_Metadata,file_InstrumentMetadata); %extract info about instruments from .xlsx file
+WeightBSNE = ParseBSNE(folder_Metadata,file_WeightBSNE); %extract info about BSNE weights from .xlsx spreadsheet
+[GrainSizeMetadata_Surface, GrainSizeMetadata_BSNE] = ParseGrainSizeMetadata(folder_Metadata,file_GrainSizeMetadata); %extract info about instruments from .xlsx file
+save(Metadata_Path,'LoggerTables','LoggerTimes','InstrumentVariables',...
+    'InstrumentMetadata','WeightBSNE','GrainSizeMetadata_Surface',...
+    'GrainSizeMetadata_BSNE','-v7.3');
 
 %% 2. Parse spreadsheets for info about loggers and site
 LoggerTables = ParseLoggerTables(folder_Metadata,file_LoggerTables); %extract info about logger tables from .xlsx file
@@ -45,14 +56,14 @@ save(GrainSize_Path,'GrainSize_Surface','GrainSize_BSNE');
 
 %% 4. Import and aggregate data from logger files
 RawData = GetRawData(LoggerTables,LoggerTimes,InstrumentVariables,InstrumentMetadata,folder_LoggerRawData);
-save(RawData_Path,'RawData','-v7.3'); %save raw data
+%save(RawData_Path,'RawData','-v7.3'); %save raw data
 
 %% 5. Perform interpolation on raw data
 %load(RawData_Path); %load raw data
 InterpolatedData = InterpolateData(RawData, InstrumentVariables); %interpolate raw data, flag errors
-save(InterpolatedData_Path,'InterpolatedData','-v7.3');
+%save(InterpolatedData_Path,'InterpolatedData','-v7.3');
 
-% 6. Process BSNE profiles and interpolated data
+%% 6. Process BSNE profiles and interpolated data
 %load(InterpolatedData_Path); %load interpolated data
 ProcessedData = ProcessData(InterpolatedData, WeightBSNE, InstrumentMetadata, GrainSize_BSNE, GrainSize_Surface); %process data
 save(ProcessedData_Path,'ProcessedData','-v7.3'); %save processed data
