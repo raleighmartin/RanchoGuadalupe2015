@@ -50,10 +50,11 @@ Position fixed for duration of deployment.
 
 -- Rancho Guadalupe 3/23/15 —-
 SALTATION
+Sporadic errors in U1 ultrasonic (~1 every 10 seconds), perhaps due to sand passing through sensor?
 
 -- Rancho Guadalupe 3/24/15 —-
 SALTATION
-
+Sporadic errors in U1 ultrasonic (~1 every 4 seconds), perhaps due to sand passing through sensor?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INSTRUMENT SERIAL NUMBERS %
