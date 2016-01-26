@@ -6,8 +6,8 @@ clearvars;
 
 %% 1. Assign folder and files with data
 folder_DataOutput = '../../../Google Drive/Data/AeolianFieldwork/Processed/'; %folder for storing data output
-folder_Scripts = '../../AeolianFieldworkAnalysis/Scripts/'; %folder with general scripts for data analysis
-path(path,folder_Scripts); %add this path to locations for running functions
+folder_Functions = '../../AeolianFieldworkAnalysis/Scripts/Functions/'; %folder with functions
+addpath(folder_Functions); %point MATLAB to location of functions
 
 %load metadata and interpolated data, create path for processed data
 Metadata_Path = strcat(folder_DataOutput,'Metadata_RanchoGuadalupe'); %get path to metadata

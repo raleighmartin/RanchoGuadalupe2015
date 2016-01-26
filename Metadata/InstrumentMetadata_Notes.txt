@@ -52,6 +52,8 @@ Position fixed for duration of deployment.
 SALTATION
 Sporadic errors in U1 ultrasonic (~1 every 10 seconds), perhaps due to sand passing through sensor?
 
+Flux observations after 16:15 suspect based on very large calibration coefficients, excluding these from analysis.  (original intervals were 16:15-17:15 and 17:29-18:29 for W1-W8)
+
 -- Rancho Guadalupe 3/24/15 —-
 SALTATION
 Sporadic errors in U1 ultrasonic (~1 every 4 seconds), perhaps due to sand passing through sensor?
